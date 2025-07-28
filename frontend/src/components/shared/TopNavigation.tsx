@@ -33,7 +33,7 @@ const TopNavigation = () => {
               className="text-xl font-heading font-bold text-coffee-dark tracking-wide hover:bg-transparent"
               onClick={() => navigate('/')}
             >
-              K
+              kohos
             </Button>
           </div>
 
