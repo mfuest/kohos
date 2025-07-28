@@ -28,7 +28,8 @@ export const APPLICATION_STATUSES = {
   WITHDRAWN: 'withdrawn',
 } as const;
 
-export type ApplicationStatus = typeof APPLICATION_STATUSES[keyof typeof APPLICATION_STATUSES];
+export type ApplicationStatus =
+  (typeof APPLICATION_STATUSES)[keyof typeof APPLICATION_STATUSES];
 
 // Application filters
 export interface ApplicationFilters {
@@ -50,4 +51,4 @@ export const MESSAGE_TYPES = {
   REJECTION: 'rejection',
 } as const;
 
-export type MessageType = typeof MESSAGE_TYPES[keyof typeof MESSAGE_TYPES]; 
+export type MessageType = (typeof MESSAGE_TYPES)[keyof typeof MESSAGE_TYPES];

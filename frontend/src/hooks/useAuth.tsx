@@ -6,9 +6,17 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, userType: 'brand' | 'creator', displayName: string) => Promise<{ error: any }>;
-  signInWithGoogle: (userType: 'brand' | 'creator') => Promise<{ error: any }>;
+  signUp: (
+    email: string,
+    password: string,
+    userType: 'brand' | 'creator',
+    displayName: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => Promise<{ error: any }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -21,13 +29,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -47,9 +55,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
-  const signUp = async (email: string, password: string, userType: 'brand' | 'creator', displayName: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    userType: 'brand' | 'creator',
+    displayName: string
+  ) => {
     const redirectUrl = `${window.location.origin}/`;
-    
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -58,15 +71,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         data: {
           user_type: userType,
           display_name: displayName,
-        }
-      }
+        },
+      },
     });
     return { error };
   };
 
-  const signInWithGoogle = async (userType: 'brand' | 'creator') => {
+  const signInWithGoogle = async () => {
     const redirectUrl = `${window.location.origin}/`;
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -74,8 +87,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
-        }
-      }
+        },
+      },
     });
     return { error };
   };
@@ -94,11 +107,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signOut,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

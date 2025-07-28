@@ -3,7 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
 
 export type Campaign = Tables<'campaigns'> & {
-  brand_profile?: Tables<'brand_profiles'>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  brand_profile?: any;
   applications_count?: number;
 };
 
@@ -19,10 +20,12 @@ export const useCampaigns = () => {
 
       const { data, error: fetchError } = await supabase
         .from('campaigns')
-        .select(`
+        .select(
+          `
           *,
           brand_profile:brand_profiles(*)
-        `)
+        `
+        )
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
@@ -32,7 +35,7 @@ export const useCampaigns = () => {
 
       // Get application counts for each campaign
       const campaignsWithCounts = await Promise.all(
-        (data || []).map(async (campaign) => {
+        (data || []).map(async campaign => {
           const { count } = await supabase
             .from('campaign_applications')
             .select('*', { count: 'exact', head: true })
@@ -47,7 +50,9 @@ export const useCampaigns = () => {
 
       setCampaigns(campaignsWithCounts);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch campaigns');
+      setError(
+        err instanceof Error ? err.message : 'Failed to fetch campaigns'
+      );
     } finally {
       setLoading(false);
     }
@@ -60,10 +65,12 @@ export const useCampaigns = () => {
 
       const { data, error: fetchError } = await supabase
         .from('campaigns')
-        .select(`
+        .select(
+          `
           *,
           brand_profile:brand_profiles(*)
-        `)
+        `
+        )
         .eq('brand_user_id', brandUserId)
         .order('created_at', { ascending: false });
 
@@ -73,7 +80,7 @@ export const useCampaigns = () => {
 
       // Get application counts for each campaign
       const campaignsWithCounts = await Promise.all(
-        (data || []).map(async (campaign) => {
+        (data || []).map(async campaign => {
           const { count } = await supabase
             .from('campaign_applications')
             .select('*', { count: 'exact', head: true })
@@ -88,13 +95,20 @@ export const useCampaigns = () => {
 
       setCampaigns(campaignsWithCounts);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch campaigns');
+      setError(
+        err instanceof Error ? err.message : 'Failed to fetch campaigns'
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const createCampaign = async (campaignData: Omit<Tables<'campaigns'>, 'id' | 'created_at' | 'updated_at' | 'applicants_count'>) => {
+  const createCampaign = async (
+    campaignData: Omit<
+      Tables<'campaigns'>,
+      'id' | 'created_at' | 'updated_at' | 'applicants_count'
+    >
+  ) => {
     try {
       const { data, error: createError } = await supabase
         .from('campaigns')
@@ -110,14 +124,17 @@ export const useCampaigns = () => {
       await fetchCampaigns();
       return { data, error: null };
     } catch (err) {
-      return { 
-        data: null, 
-        error: err instanceof Error ? err.message : 'Failed to create campaign' 
+      return {
+        data: null,
+        error: err instanceof Error ? err.message : 'Failed to create campaign',
       };
     }
   };
 
-  const updateCampaign = async (id: string, updates: Partial<Tables<'campaigns'>>) => {
+  const updateCampaign = async (
+    id: string,
+    updates: Partial<Tables<'campaigns'>>
+  ) => {
     try {
       const { data, error: updateError } = await supabase
         .from('campaigns')
@@ -134,9 +151,9 @@ export const useCampaigns = () => {
       await fetchCampaigns();
       return { data, error: null };
     } catch (err) {
-      return { 
-        data: null, 
-        error: err instanceof Error ? err.message : 'Failed to update campaign' 
+      return {
+        data: null,
+        error: err instanceof Error ? err.message : 'Failed to update campaign',
       };
     }
   };
@@ -154,4 +171,4 @@ export const useCampaigns = () => {
     createCampaign,
     updateCampaign,
   };
-}; 
+};

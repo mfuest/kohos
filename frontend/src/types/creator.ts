@@ -46,7 +46,8 @@ export const CREATOR_CATEGORIES = {
   OTHER: 'other',
 } as const;
 
-export type CreatorCategory = typeof CREATOR_CATEGORIES[keyof typeof CREATOR_CATEGORIES];
+export type CreatorCategory =
+  (typeof CREATOR_CATEGORIES)[keyof typeof CREATOR_CATEGORIES];
 
 // Creator engagement tiers
 export const ENGAGEMENT_TIERS = {
@@ -69,4 +70,4 @@ export const CONTENT_TYPES = {
   OTHER: 'other',
 } as const;
 
-export type ContentType = typeof CONTENT_TYPES[keyof typeof CONTENT_TYPES]; 
+export type ContentType = (typeof CONTENT_TYPES)[keyof typeof CONTENT_TYPES];

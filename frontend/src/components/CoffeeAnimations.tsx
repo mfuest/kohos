@@ -1,4 +1,4 @@
-import { Coffee, Waves } from 'lucide-react';
+import { Coffee } from 'lucide-react';
 
 const CoffeeAnimations = () => {
   return (
@@ -9,13 +9,13 @@ const CoffeeAnimations = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-700 to-transparent rounded-full"></div>
         </div>
       </div>
-      
+
       <div className="coffee-bean coffee-bean-2">
         <div className="w-2 h-3 bg-gradient-to-br from-amber-800 to-amber-900 rounded-full relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-700 to-transparent rounded-full"></div>
         </div>
       </div>
-      
+
       <div className="coffee-bean coffee-bean-3">
         <div className="w-4 h-5 bg-gradient-to-br from-amber-800 to-amber-900 rounded-full relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-700 to-transparent rounded-full"></div>

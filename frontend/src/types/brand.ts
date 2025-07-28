@@ -9,10 +9,7 @@ export type BrandWithProfile = Brand & {
 };
 
 // Brand creation form data
-export type CreateBrandData = Omit<
-  Brand,
-  'id' | 'created_at' | 'updated_at'
->;
+export type CreateBrandData = Omit<Brand, 'id' | 'created_at' | 'updated_at'>;
 
 // Brand update data
 export type UpdateBrandData = Partial<Brand>;
@@ -44,7 +41,8 @@ export const BRAND_INDUSTRIES = {
   OTHER: 'other',
 } as const;
 
-export type BrandIndustry = typeof BRAND_INDUSTRIES[keyof typeof BRAND_INDUSTRIES];
+export type BrandIndustry =
+  (typeof BRAND_INDUSTRIES)[keyof typeof BRAND_INDUSTRIES];
 
 // Company sizes
 export const COMPANY_SIZES = {
@@ -55,7 +53,7 @@ export const COMPANY_SIZES = {
   ENTERPRISE: 'enterprise',
 } as const;
 
-export type CompanySize = typeof COMPANY_SIZES[keyof typeof COMPANY_SIZES];
+export type CompanySize = (typeof COMPANY_SIZES)[keyof typeof COMPANY_SIZES];
 
 // Brand verification status
 export const VERIFICATION_STATUSES = {
@@ -64,4 +62,5 @@ export const VERIFICATION_STATUSES = {
   REJECTED: 'rejected',
 } as const;
 
-export type VerificationStatus = typeof VERIFICATION_STATUSES[keyof typeof VERIFICATION_STATUSES]; 
+export type VerificationStatus =
+  (typeof VERIFICATION_STATUSES)[keyof typeof VERIFICATION_STATUSES];

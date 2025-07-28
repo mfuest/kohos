@@ -13,6 +13,7 @@ export interface User {
   updated_at: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ApiResponse<T = any> {
   data?: T;
   error?: string;
@@ -46,6 +47,7 @@ export interface LoadingState {
 
 export interface ModalState {
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
 }
 
@@ -53,6 +55,7 @@ export interface ModalState {
 export interface NavigationItem {
   label: string;
   href: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon?: any; // React.ComponentType
   children?: NavigationItem[];
 }
@@ -64,4 +67,4 @@ export interface Theme {
   secondary: string;
   background: string;
   text: string;
-} 
+}

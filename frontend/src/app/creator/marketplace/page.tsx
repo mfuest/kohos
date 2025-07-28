@@ -1,34 +1,46 @@
-import { useState, useEffect } from "react";
-import { Input } from "../../components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
-import { Search } from "lucide-react";
-import CampaignCard from "../../components/CampaignCard";
-import CreatorHeader from "../../components/creator/CreatorHeader";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import EmptyState from "../../components/EmptyState";
-import { useCampaigns } from "../../hooks/useCampaigns";
-import { useToast } from "../../hooks/use-toast";
+'use client';
 
-const CreatorMarketplace = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const { campaigns, loading, error, fetchCampaigns } = useCampaigns();
+import { useState, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Search } from 'lucide-react';
+import CampaignCard from '@/components/CampaignCard';
+import CreatorHeader from '@/components/creator/CreatorHeader';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import EmptyState from '@/components/EmptyState';
+import { useCampaigns } from '@/hooks/useCampaigns';
+import { useToast } from '@/hooks/use-toast';
+
+export default function CreatorMarketplacePage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { campaigns, loading, error } = useCampaigns();
   const { toast } = useToast();
 
   useEffect(() => {
     if (error) {
       toast({
-        title: "Error loading campaigns",
+        title: 'Error loading campaigns',
         description: error,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   }, [error, toast]);
 
   const filteredCampaigns = campaigns.filter(campaign => {
-    const matchesSearch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (campaign.brand_profile?.company_name || "").toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || campaign.category === selectedCategory;
+    const matchesSearch =
+      campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (campaign.brand_profile?.company_name || '')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === 'all' || campaign.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -37,7 +49,9 @@ const CreatorMarketplace = () => {
       <CreatorHeader />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-heading font-light mb-2">Campaign Marketplace</h1>
+          <h1 className="text-3xl font-heading font-light mb-2">
+            Campaign Marketplace
+          </h1>
           <p className="text-muted-foreground">Discover brand partnerships</p>
         </div>
 
@@ -47,11 +61,11 @@ const CreatorMarketplace = () => {
             <Input
               placeholder="Search campaigns or brands..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
-          
+
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full sm:w-48">
               <SelectValue placeholder="Category" />
@@ -72,16 +86,20 @@ const CreatorMarketplace = () => {
         ) : (
           <>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredCampaigns.map((campaign) => (
-                <CampaignCard 
-                  key={campaign.id} 
+              {filteredCampaigns.map(campaign => (
+                <CampaignCard
+                  key={campaign.id}
                   title={campaign.title}
-                  company={campaign.brand_profile?.company_name || "Unknown Brand"}
+                  company={
+                    campaign.brand_profile?.company_name || 'Unknown Brand'
+                  }
                   budget={`$${campaign.budget_min?.toLocaleString()} - $${campaign.budget_max?.toLocaleString()}`}
-                  deadline={campaign.deadline || "No deadline"}
+                  deadline={campaign.deadline || 'No deadline'}
                   category={campaign.category}
-                  location={campaign.location || "Remote"}
-                  description={campaign.description || "No description available"}
+                  location={campaign.location || 'Remote'}
+                  description={
+                    campaign.description || 'No description available'
+                  }
                   requirements={campaign.requirements || []}
                   applicants={campaign.applications_count || 0}
                 />
@@ -100,6 +118,6 @@ const CreatorMarketplace = () => {
       </div>
     </div>
   );
-};
+}
 
-export default CreatorMarketplace;
+export const dynamic = 'force-dynamic';

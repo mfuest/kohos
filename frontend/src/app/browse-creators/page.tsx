@@ -1,36 +1,52 @@
-import { useState, useEffect } from "react";
-import { Input } from "../components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
-import { Search } from "lucide-react";
-import CreatorCard from "../components/creator/CreatorCard";
-import BrandHeader from "../components/brand/BrandHeader";
-import LoadingSpinner from "../components/LoadingSpinner";
-import EmptyState from "../components/EmptyState";
-import { useCreators } from "../hooks/useCreators";
-import { useToast } from "../hooks/use-toast";
+'use client';
 
-const BrowseCreators = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedNiche, setSelectedNiche] = useState("all");
-  const { creators, loading, error, fetchCreators } = useCreators();
+import { useState, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Search } from 'lucide-react';
+import CreatorCard from '@/components/creator/CreatorCard';
+import BrandHeader from '@/components/brand/BrandHeader';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import EmptyState from '@/components/EmptyState';
+import { useCreators } from '@/hooks/useCreators';
+import { useToast } from '@/hooks/use-toast';
+
+export default function BrowseCreatorsPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedNiche, setSelectedNiche] = useState('all');
+  const { creators, loading, error } = useCreators();
   const { toast } = useToast();
 
   useEffect(() => {
     if (error) {
       toast({
-        title: "Error loading creators",
+        title: 'Error loading creators',
         description: error,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   }, [error, toast]);
 
   const filteredCreators = creators.filter(creator => {
-    const matchesSearch = (creator.profile?.display_name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (creator.profile?.bio || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (creator.categories?.join(", ") || "").toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesNiche = selectedNiche === "all" || 
-                        creator.categories?.some(cat => cat === selectedNiche);
+    const matchesSearch =
+      (creator.profile?.display_name || '')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (creator.profile?.bio || '')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (creator.categories?.join(', ') || '')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesNiche =
+      selectedNiche === 'all' ||
+      creator.categories?.some(cat => cat === selectedNiche);
     return matchesSearch && matchesNiche;
   });
 
@@ -39,8 +55,12 @@ const BrowseCreators = () => {
       <BrandHeader />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-heading font-light mb-2">Browse Creators</h1>
-          <p className="text-muted-foreground">Find the perfect creators for your campaigns</p>
+          <h1 className="text-3xl font-heading font-light mb-2">
+            Browse Creators
+          </h1>
+          <p className="text-muted-foreground">
+            Find the perfect creators for your campaigns
+          </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -49,11 +69,11 @@ const BrowseCreators = () => {
             <Input
               placeholder="Search creators by name, bio, or niche..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
-          
+
           <Select value={selectedNiche} onValueChange={setSelectedNiche}>
             <SelectTrigger className="w-full sm:w-48">
               <SelectValue placeholder="Niche" />
@@ -74,17 +94,19 @@ const BrowseCreators = () => {
         ) : (
           <>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredCreators.map((creator) => (
-                <CreatorCard 
+              {filteredCreators.map(creator => (
+                <CreatorCard
                   key={creator.id}
-                  name={creator.profile?.display_name || "Unknown Creator"}
-                  bio={creator.profile?.bio || "No bio available"}
-                  location={creator.profile?.location || "Location not specified"}
+                  name={creator.profile?.display_name || 'Unknown Creator'}
+                  bio={creator.profile?.bio || 'No bio available'}
+                  location={
+                    creator.profile?.location || 'Location not specified'
+                  }
                   followers={`${(creator.followers_count || 0).toLocaleString()}`}
                   engagement={`${(creator.engagement_rate || 0).toFixed(1)}%`}
                   specialty={creator.categories || []}
                   rate="$500-1000"
-                  avatar={creator.profile?.avatar_url || ""}
+                  avatar={creator.profile?.avatar_url || ''}
                 />
               ))}
             </div>
@@ -101,6 +123,6 @@ const BrowseCreators = () => {
       </div>
     </div>
   );
-};
+}
 
-export default BrowseCreators;
+export const dynamic = 'force-dynamic';

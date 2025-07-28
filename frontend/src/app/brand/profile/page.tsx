@@ -1,11 +1,23 @@
-import BrandHeader from "../../components/brand/BrandHeader";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { Badge } from "../../components/ui/badge";
-import { Edit, MapPin, Globe, Calendar } from "lucide-react";
+'use client';
 
-const BrandProfile = () => {
+import BrandHeader from '@/components/brand/BrandHeader';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Edit, MapPin, Globe, Calendar } from 'lucide-react';
+
+export default function BrandProfilePage() {
   return (
     <div className="min-h-screen bg-background">
       <BrandHeader />
@@ -21,7 +33,9 @@ const BrandProfile = () => {
                   </Avatar>
                   <div>
                     <CardTitle className="text-2xl">Your Brand</CardTitle>
-                    <CardDescription className="text-lg">Premium Coffee & Lifestyle</CardDescription>
+                    <CardDescription className="text-lg">
+                      Premium Coffee & Lifestyle
+                    </CardDescription>
                     <div className="flex items-center space-x-4 mt-2 text-sm text-muted-foreground">
                       <div className="flex items-center space-x-1">
                         <MapPin className="h-4 w-4" />
@@ -38,7 +52,10 @@ const BrandProfile = () => {
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2"
+                >
                   <Edit className="h-4 w-4" />
                   <span>Edit Profile</span>
                 </Button>
@@ -49,12 +66,13 @@ const BrandProfile = () => {
                 <div>
                   <h3 className="font-semibold mb-2">About</h3>
                   <p className="text-muted-foreground">
-                    We're a premium coffee brand focused on sustainability and quality. 
-                    We partner with content creators who share our passion for authentic, 
-                    high-quality content that resonates with coffee lovers worldwide.
+                    We&apos;re a premium coffee brand focused on sustainability
+                    and quality. We partner with content creators who share our
+                    passion for authentic, high-quality content that resonates
+                    with coffee lovers worldwide.
                   </p>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold mb-2">Brand Categories</h3>
                   <div className="flex flex-wrap gap-2">
@@ -70,33 +88,47 @@ const BrandProfile = () => {
                     <h3 className="font-semibold mb-2">Campaign Stats</h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Total Campaigns:</span>
+                        <span className="text-muted-foreground">
+                          Total Campaigns:
+                        </span>
                         <span>12</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Active Partnerships:</span>
+                        <span className="text-muted-foreground">
+                          Active Partnerships:
+                        </span>
                         <span>8</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Success Rate:</span>
+                        <span className="text-muted-foreground">
+                          Success Rate:
+                        </span>
                         <span>94%</span>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold mb-2">Preferred Creator Types</h3>
+                    <h3 className="font-semibold mb-2">
+                      Preferred Creator Types
+                    </h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Follower Range:</span>
+                        <span className="text-muted-foreground">
+                          Follower Range:
+                        </span>
                         <span>10K - 500K</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Engagement Rate:</span>
+                        <span className="text-muted-foreground">
+                          Engagement Rate:
+                        </span>
                         <span>3%+</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Content Style:</span>
+                        <span className="text-muted-foreground">
+                          Content Style:
+                        </span>
                         <span>Authentic, Lifestyle</span>
                       </div>
                     </div>
@@ -109,6 +141,6 @@ const BrandProfile = () => {
       </div>
     </div>
   );
-};
+}
 
-export default BrandProfile;
+export const dynamic = 'force-dynamic';

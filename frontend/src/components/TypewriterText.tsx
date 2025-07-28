@@ -8,12 +8,12 @@ interface TypewriterTextProps {
   pauseDuration?: number;
 }
 
-const TypewriterText = ({ 
-  text, 
-  className = "", 
-  typeSpeed = 150, 
-  deleteSpeed = 100, 
-  pauseDuration = 2000 
+const TypewriterText = ({
+  text,
+  className = '',
+  typeSpeed = 150,
+  deleteSpeed = 100,
+  pauseDuration = 2000,
 }: TypewriterTextProps) => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
@@ -58,7 +58,9 @@ const TypewriterText = ({
   return (
     <span className={className}>
       {displayText}
-      <span className={`inline-block w-0.5 bg-current transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>
+      <span
+        className={`inline-block w-0.5 bg-current transition-opacity duration-100 ${showCursor ? 'opacity-100' : 'opacity-0'}`}
+      >
         |
       </span>
     </span>

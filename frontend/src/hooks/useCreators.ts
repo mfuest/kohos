@@ -3,7 +3,8 @@ import { supabase } from '../integrations/supabase/client';
 import type { Tables } from '../integrations/supabase/types';
 
 export type Creator = Tables<'creator_profiles'> & {
-  profile?: Tables<'profiles'>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  profile?: any;
 };
 
 export const useCreators = () => {
@@ -18,10 +19,12 @@ export const useCreators = () => {
 
       const { data, error: fetchError } = await supabase
         .from('creator_profiles')
-        .select(`
+        .select(
+          `
           *,
           profile:profiles(*)
-        `)
+        `
+        )
         .order('created_at', { ascending: false });
 
       if (fetchError) {
@@ -43,10 +46,12 @@ export const useCreators = () => {
 
       const { data, error: fetchError } = await supabase
         .from('creator_profiles')
-        .select(`
+        .select(
+          `
           *,
           profile:profiles(*)
-        `)
+        `
+        )
         .eq('user_id', userId)
         .single();
 
@@ -56,16 +61,22 @@ export const useCreators = () => {
 
       return { data, error: null };
     } catch (err) {
-      return { 
-        data: null, 
-        error: err instanceof Error ? err.message : 'Failed to fetch creator profile' 
+      return {
+        data: null,
+        error:
+          err instanceof Error
+            ? err.message
+            : 'Failed to fetch creator profile',
       };
     } finally {
       setLoading(false);
     }
   };
 
-  const updateCreatorProfile = async (userId: string, updates: Partial<Tables<'creator_profiles'>>) => {
+  const updateCreatorProfile = async (
+    userId: string,
+    updates: Partial<Tables<'creator_profiles'>>
+  ) => {
     try {
       const { data, error: updateError } = await supabase
         .from('creator_profiles')
@@ -82,9 +93,12 @@ export const useCreators = () => {
       await fetchCreators();
       return { data, error: null };
     } catch (err) {
-      return { 
-        data: null, 
-        error: err instanceof Error ? err.message : 'Failed to update creator profile' 
+      return {
+        data: null,
+        error:
+          err instanceof Error
+            ? err.message
+            : 'Failed to update creator profile',
       };
     }
   };
@@ -101,4 +115,4 @@ export const useCreators = () => {
     fetchCreatorByUserId,
     updateCreatorProfile,
   };
-}; 
+};

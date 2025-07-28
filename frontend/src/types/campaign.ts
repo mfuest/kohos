@@ -36,7 +36,8 @@ export const CAMPAIGN_STATUSES = {
   CANCELLED: 'cancelled',
 } as const;
 
-export type CampaignStatus = typeof CAMPAIGN_STATUSES[keyof typeof CAMPAIGN_STATUSES];
+export type CampaignStatus =
+  (typeof CAMPAIGN_STATUSES)[keyof typeof CAMPAIGN_STATUSES];
 
 // Campaign categories
 export const CAMPAIGN_CATEGORIES = {
@@ -52,4 +53,5 @@ export const CAMPAIGN_CATEGORIES = {
   OTHER: 'other',
 } as const;
 
-export type CampaignCategory = typeof CAMPAIGN_CATEGORIES[keyof typeof CAMPAIGN_CATEGORIES]; 
+export type CampaignCategory =
+  (typeof CAMPAIGN_CATEGORIES)[keyof typeof CAMPAIGN_CATEGORIES];

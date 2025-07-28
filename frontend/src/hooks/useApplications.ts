@@ -11,7 +11,12 @@ export const useApplications = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createApplication = async (applicationData: Omit<Tables<'campaign_applications'>, 'id' | 'applied_at' | 'updated_at'>) => {
+  const createApplication = async (
+    applicationData: Omit<
+      Tables<'campaign_applications'>,
+      'id' | 'applied_at' | 'updated_at'
+    >
+  ) => {
     try {
       setLoading(true);
       setError(null);
@@ -28,7 +33,8 @@ export const useApplications = () => {
 
       return { data, error: null };
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create application';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to create application';
       setError(errorMessage);
       return { data: null, error: errorMessage };
     } finally {
@@ -43,10 +49,12 @@ export const useApplications = () => {
 
       const { data, error: fetchError } = await supabase
         .from('campaign_applications')
-        .select(`
+        .select(
+          `
           *,
           creator_profile:creator_profiles(*)
-        `)
+        `
+        )
         .eq('campaign_id', campaignId)
         .order('applied_at', { ascending: false });
 
@@ -56,7 +64,8 @@ export const useApplications = () => {
 
       return { data: data || [], error: null };
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch applications';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to fetch applications';
       setError(errorMessage);
       return { data: [], error: errorMessage };
     } finally {
@@ -71,10 +80,12 @@ export const useApplications = () => {
 
       const { data, error: fetchError } = await supabase
         .from('campaign_applications')
-        .select(`
+        .select(
+          `
           *,
           campaign:campaigns(*)
-        `)
+        `
+        )
         .eq('creator_user_id', creatorUserId)
         .order('applied_at', { ascending: false });
 
@@ -84,7 +95,8 @@ export const useApplications = () => {
 
       return { data: data || [], error: null };
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch applications';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to fetch applications';
       setError(errorMessage);
       return { data: [], error: errorMessage };
     } finally {
@@ -92,7 +104,10 @@ export const useApplications = () => {
     }
   };
 
-  const updateApplicationStatus = async (applicationId: string, status: Tables<'campaign_applications'>['status']) => {
+  const updateApplicationStatus = async (
+    applicationId: string,
+    status: Tables<'campaign_applications'>['status']
+  ) => {
     try {
       setLoading(true);
       setError(null);
@@ -110,7 +125,8 @@ export const useApplications = () => {
 
       return { data, error: null };
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to update application';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to update application';
       setError(errorMessage);
       return { data: null, error: errorMessage };
     } finally {
@@ -126,4 +142,4 @@ export const useApplications = () => {
     getApplicationsByCreator,
     updateApplicationStatus,
   };
-}; 
+};

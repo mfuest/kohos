@@ -1,7 +1,13 @@
-import { Button } from "./ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Calendar, DollarSign, Users, MapPin } from "lucide-react";
+import { Button } from './ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
+import { Badge } from './ui/badge';
+import { Calendar, DollarSign, Users, MapPin } from 'lucide-react';
 
 interface CampaignCardProps {
   title: string;
@@ -16,35 +22,41 @@ interface CampaignCardProps {
   showEditButton?: boolean;
 }
 
-const CampaignCard = ({ 
-  title, 
-  company, 
-  budget, 
-  deadline, 
-  category, 
-  location, 
-  description, 
+const CampaignCard = ({
+  title,
+  company,
+  budget,
+  deadline,
+  category,
+  location,
+  description,
   requirements,
   applicants = 0,
-  showEditButton = false
+  showEditButton = false,
 }: CampaignCardProps) => {
   return (
     <Card className="hover:shadow-elegant transition-all duration-300 border hover:border-primary/20">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="space-y-2">
-            <CardTitle className="text-lg font-semibold leading-tight">{title}</CardTitle>
-            <CardDescription className="text-base font-medium text-foreground">{company}</CardDescription>
+            <CardTitle className="text-lg font-semibold leading-tight">
+              {title}
+            </CardTitle>
+            <CardDescription className="text-base font-medium text-foreground">
+              {company}
+            </CardDescription>
           </div>
           <Badge variant="secondary" className="bg-brand-light text-brand">
             {category}
           </Badge>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
-        <p className="text-muted-foreground text-sm line-clamp-2">{description}</p>
-        
+        <p className="text-muted-foreground text-sm line-clamp-2">
+          {description}
+        </p>
+
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center space-x-2">
             <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -63,7 +75,7 @@ const CampaignCard = ({
             <span>{applicants} applied</span>
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <h4 className="text-sm font-medium">Requirements:</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
@@ -75,9 +87,12 @@ const CampaignCard = ({
             ))}
           </ul>
         </div>
-        
-        <Button variant={showEditButton ? "outline" : "gradient"} className="w-full">
-          {showEditButton ? "Edit Campaign" : "Apply Now"}
+
+        <Button
+          variant={showEditButton ? 'outline' : 'gradient'}
+          className="w-full"
+        >
+          {showEditButton ? 'Edit Campaign' : 'Apply Now'}
         </Button>
       </CardContent>
     </Card>

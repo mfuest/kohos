@@ -1,22 +1,22 @@
-import { Button } from "./ui/button";
-import { Search, Plus } from "lucide-react";
+import { Button } from './ui/button';
+import { Search, Plus } from 'lucide-react';
 
 interface EmptyStateProps {
   title: string;
   description: string;
   actionText?: string;
   onAction?: () => void;
-  icon?: "search" | "create";
+  icon?: 'search' | 'create';
 }
 
-const EmptyState = ({ 
-  title, 
-  description, 
-  actionText, 
-  onAction, 
-  icon = "search" 
+const EmptyState = ({
+  title,
+  description,
+  actionText,
+  onAction,
+  icon = 'search',
 }: EmptyStateProps) => {
-  const IconComponent = icon === "search" ? Search : Plus;
+  const IconComponent = icon === 'search' ? Search : Plus;
 
   return (
     <div className="text-center py-12">
@@ -24,7 +24,9 @@ const EmptyState = ({
         <IconComponent className="h-8 w-8 text-muted-foreground" />
       </div>
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-muted-foreground mb-6 max-w-md mx-auto">{description}</p>
+      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+        {description}
+      </p>
       {actionText && onAction && (
         <Button onClick={onAction} variant="outline">
           {actionText}

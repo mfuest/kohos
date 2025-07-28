@@ -1,27 +1,40 @@
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Button } from '../ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { User } from 'lucide-react';
+import Link from 'next/link';
 
 const CreatorHeader = () => {
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/creator-marketplace" className="text-xl font-heading font-light">
+        <Link
+          href="/creator-marketplace"
+          className="text-xl font-heading font-light"
+        >
           <span className="text-coffee-dark font-extrabold">K</span>
         </Link>
-        
+
         <nav className="flex items-center space-x-6">
-          <Link to="/creator-marketplace" className="text-sm hover:text-coffee-dark transition-colors">
+          <Link
+            href="/creator-marketplace"
+            className="text-sm hover:text-coffee-dark transition-colors"
+          >
             Campaigns
           </Link>
-          <Link to="/creator-analytics" className="text-sm hover:text-coffee-dark transition-colors">
+          <Link
+            href="/creator-analytics"
+            className="text-sm hover:text-coffee-dark transition-colors"
+          >
             Analytics
           </Link>
         </nav>
-        
-        <Link to="/creator-profile">
-          <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+
+        <Link href="/creator-profile">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center space-x-2"
+          >
             <Avatar className="h-8 w-8">
               <AvatarImage src="" />
               <AvatarFallback>

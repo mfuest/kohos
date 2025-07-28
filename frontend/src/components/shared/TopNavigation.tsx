@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Menu, X } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 const TopNavigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -21,17 +21,21 @@ const TopNavigation = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="flex items-center space-x-2"
             >
-              {isMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {isMenuOpen ? (
+                <X className="w-4 h-4" />
+              ) : (
+                <Menu className="w-4 h-4" />
+              )}
               <span>Menu</span>
             </Button>
           </div>
 
           {/* Center - Kohos */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="text-xl font-heading font-bold text-coffee-dark tracking-wide hover:bg-transparent"
-              onClick={() => navigate('/')}
+              onClick={() => router.push('/')}
             >
               kohos
             </Button>
@@ -39,7 +43,11 @@ const TopNavigation = () => {
 
           {/* Right - About & User Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push('/about')}
+            >
               About
             </Button>
             {user && (
