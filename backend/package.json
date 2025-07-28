@@ -1,0 +1,29 @@
+{
+  "name": "kohos-backend",
+  "version": "1.0.0",
+  "description": "Backend services for Kohos platform",
+  "private": true,
+  "scripts": {
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:migrate": "supabase migration new",
+    "db:generate-types": "supabase gen types typescript --local > ../frontend/src/integrations/supabase/types.ts",
+    "db:studio": "supabase studio",
+    "functions:dev": "supabase functions serve",
+    "functions:deploy": "supabase functions deploy",
+    "edge:deploy": "supabase edge functions deploy",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.52.1",
+    "eslint": "^9.9.0",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+} 
