@@ -11,6 +11,7 @@ echo "🧹 Cleaning up Kohos frontend development environment..."
 echo "🗑️  Removing build artifacts..."
 rm -rf dist/
 rm -rf build/
+rm -rf .next/
 rm -rf .vite/
 
 # Remove node_modules cache
