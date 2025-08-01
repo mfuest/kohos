@@ -1,13 +1,12 @@
 import { z } from 'zod';
 
-// Environment variable schema with fallbacks
+// Environment variable schema - required Supabase credentials
 const envSchema = z.object({
-  // Supabase configuration - with fallbacks for development
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL').optional(),
+  // Supabase configuration - required for production
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url('Invalid Supabase URL'),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z
     .string()
-    .min(1, 'Supabase anon key is required')
-    .optional(),
+    .min(1, 'Supabase anon key is required'),
 
   // Application configuration
   NODE_ENV: z
@@ -40,23 +39,25 @@ const envSchema = z.object({
     .default('false'),
 });
 
-// Parse and validate environment variables with error handling
+// Parse and validate environment variables with strict error handling
 let env: z.infer<typeof envSchema>;
 
 try {
   env = envSchema.parse(process.env);
 } catch (error) {
-  console.warn('Environment validation failed, using defaults:', error);
-  // Use defaults if validation fails
-  env = {
-    NODE_ENV: 'development',
-    NEXT_PUBLIC_APP_ENV: 'development',
-    NEXT_PUBLIC_APP_NAME: 'Kohos',
-    NEXT_PUBLIC_APP_VERSION: '1.0.0',
-    NEXT_PUBLIC_ANALYTICS_ENABLED: false,
-    NEXT_PUBLIC_ENABLE_NOTIFICATIONS: true,
-    NEXT_PUBLIC_ENABLE_ANALYTICS: false,
-  };
+  if (error instanceof z.ZodError) {
+    const missingVars = error.errors
+      .filter(err => err.path.includes('NEXT_PUBLIC_SUPABASE'))
+      .map(err => err.path.join('.'))
+      .join(', ');
+    
+    if (missingVars) {
+      throw new Error(`Missing required Supabase environment variables: ${missingVars}. Please check your .env.local file and Vercel project settings.`);
+    }
+  }
+  
+  // For other validation errors, still throw but with more context
+  throw new Error(`Environment validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
 }
 
 export { env };

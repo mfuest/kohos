@@ -1,213 +1,128 @@
-# Kohos - Brand-Creator Partnership Platform
+# Kohos - Creator-Brand Collaboration Platform
 
-A modern marketplace platform connecting brands with content creators for authentic partnerships.
+A modern platform connecting creators with brands for authentic collaborations.
 
 ## 🏗️ Project Structure
 
 ```
 kohos/
-├── frontend/              # React + TypeScript + Vite application
-│   ├── src/              # Source code
-│   ├── public/           # Static assets
-│   ├── docs/             # Frontend documentation
-│   └── scripts/          # Development scripts
-├── backend/              # Supabase backend services
-│   ├── supabase/         # Database migrations and config
-│   └── functions/        # Edge functions (future)
-└── README.md             # This file
+├── frontend/              # Next.js + TypeScript + React application
+├── backend/               # Supabase backend with database and API
+└── docs/                  # Project documentation
 ```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 20+ (use `nvm use` to switch to the correct version)
+
+- Node.js 18+ 
 - npm or yarn
-- Supabase account
+- Docker Desktop (for local Supabase development)
 
-### Frontend Setup
+### Development Setup
 
-1. **Navigate to frontend directory**
+1. **Clone and install dependencies:**
    ```bash
-   cd frontend
-   nvm use  # Uses Node 20 as specified in .nvmrc
-   ```
-
-2. **Install dependencies**
-   ```bash
+   git clone <repository-url>
+   cd kohos
    npm install
    ```
 
-3. **Environment setup**
+2. **Set up environment variables:**
    ```bash
+   cd frontend
    cp env.example .env.local
    # Edit .env.local with your Supabase credentials
    ```
 
-4. **Start development server**
+3. **Start the development server:**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
-   Navigate to `http://localhost:5173`
-
-### Backend Setup
-
-1. **Navigate to backend directory**
-   ```bash
-   cd backend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start local Supabase**
-   ```bash
-   npm run db:start
-   ```
-
-4. **Apply database migrations**
-   ```bash
-   npm run db:push
-   ```
-
-## 🛠️ Development
-
-### Frontend Development
-
-```bash
-cd frontend
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Run linting
-npm run lint
-
-# Format code
-npm run format
-
-# Type checking
-npm run type-check
-```
-
-### Backend Development
-
-```bash
-cd backend
-
-# Start local Supabase
-npm run db:start
-
-# Apply migrations
-npm run db:push
-
-# Generate TypeScript types
-npm run db:generate-types
-
-# Stop local Supabase
-npm run db:stop
-```
-
-### Available Scripts
-
-#### Frontend Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues
-- `npm run type-check` - Run TypeScript type checking
-- `npm run format` - Format code with Prettier
-- `npm run clean` - Clean build artifacts
-
-#### Backend Scripts
-- `npm run db:start` - Start local Supabase
-- `npm run db:stop` - Stop local Supabase
-- `npm run db:status` - Check Supabase status
-- `npm run db:push` - Apply migrations
-- `npm run db:reset` - Reset database
-- `npm run db:generate-types` - Generate TypeScript types
-
-## 🗄️ Database
-
-The backend uses Supabase as the primary database with the following schema:
-
-- **profiles** - Base user profiles
-- **creator_profiles** - Creator-specific data
-- **brand_profiles** - Brand-specific data
-- **campaigns** - Brand campaigns
-- **campaign_applications** - Creator applications
-
-### Database Management
-
-```bash
-cd backend
-
-# Start local development
-npm run db:start
-
-# Apply migrations
-npm run db:push
-
-# Generate types for frontend
-npm run db:generate-types
-```
-
-## 🎨 Design System
-
-The frontend uses a coffee-themed design system with:
-- Warm brown and cream color palette
-- Custom CSS variables for consistent theming
-- Responsive design with mobile-first approach
-- shadcn/ui components as the foundation
-
-## 📱 Features
-
-### For Brands
-- Create and manage campaigns
-- Browse and filter creators
-- Review applications
-- Analytics dashboard
-
-### For Creators
-- Discover campaigns
-- Apply to campaigns
-- Manage profile and portfolio
-- Track application status
+   This will start:
+   - Frontend: http://localhost:3000
+   - Backend: Supabase local development
 
 ## 🔧 Environment Variables
 
-### Frontend (.env.local)
-```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+### Required Variables
+
+Copy `frontend/env.example` to `frontend/.env.local` and configure:
+
+```bash
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### Backend (.env)
-```env
-SUPABASE_URL=your_supabase_url
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-SUPABASE_ANON_KEY=your_anon_key
+### Optional Variables
+
+```bash
+# Application Configuration
+NODE_ENV=development
+NEXT_PUBLIC_APP_ENV=development
+NEXT_PUBLIC_APP_NAME=Kohos
+NEXT_PUBLIC_APP_VERSION=1.0.0
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Analytics (optional)
+NEXT_PUBLIC_ANALYTICS_ID=your_google_analytics_id
+NEXT_PUBLIC_ANALYTICS_ENABLED=false
+
+# Feature Flags (optional)
+NEXT_PUBLIC_ENABLE_NOTIFICATIONS=true
+NEXT_PUBLIC_ENABLE_ANALYTICS=false
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI + shadcn/ui
+- **State Management**: React Query (TanStack Query)
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+
+### Backend
+- **Database**: Supabase (PostgreSQL)
+- **API**: Supabase Edge Functions
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+
+## 📁 Project Structure
+
+```
+frontend/
+├── src/
+│   ├── app/                 # Next.js App Router pages
+│   ├── components/          # Reusable React components
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions and configurations
+│   ├── types/              # TypeScript type definitions
+│   └── integrations/       # Third-party integrations (Supabase)
+├── public/                 # Static assets
+└── docs/                   # Frontend-specific documentation
 ```
 
 ## 🚀 Deployment
 
-### Frontend Deployment (Vercel)
-1. Connect your GitHub repository
-2. Set environment variables
-3. Deploy automatically on push
+### Vercel Deployment
 
-### Backend Deployment (Supabase)
-1. Create Supabase project
-2. Configure environment variables
-3. Run migrations: `npm run db:push`
-4. Deploy edge functions (if any)
+1. **Connect your repository to Vercel**
+2. **Set environment variables** in Vercel project settings
+3. **Deploy** - Vercel will automatically build and deploy your Next.js app
+
+See `frontend/VERCEL_DEPLOYMENT.md` for detailed deployment instructions.
+
+## 📚 Documentation
+
+- [Frontend Development Guide](frontend/docs/DEVELOPMENT.md)
+- [Project Structure](PROJECT_STRUCTURE.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Vercel Deployment](frontend/VERCEL_DEPLOYMENT.md)
 
 ## 🤝 Contributing
 
@@ -217,27 +132,6 @@ SUPABASE_ANON_KEY=your_anon_key
 4. Add tests if applicable
 5. Submit a pull request
 
-### Development Workflow
-```bash
-# Frontend development
-cd frontend
-npm run dev
+## 📄 License
 
-# Backend development (in another terminal)
-cd backend
-npm run db:start
-```
-
-## 📚 Documentation
-
-- [Frontend Development Guide](frontend/docs/DEVELOPMENT.md)
-- [Backend Documentation](backend/README.md)
-- [Database Schema](backend/supabase/migrations/)
-
-## 🆘 Support
-
-For support, email support@kohos.com or create an issue in this repository.
-
----
-
-Built with ❤️ using React, TypeScript, Tailwind CSS, and Supabase.
+This project is licensed under the MIT License.

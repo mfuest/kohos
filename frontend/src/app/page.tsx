@@ -24,10 +24,10 @@ export default function HomePage() {
   }, [user, router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-brand-light/20 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-cream via-latte to-coffee-light/30 relative overflow-hidden">
       <TopNavigation />
 
-      {/* Large background typewriter text */}
+      {/* Large background typewriter text - 90% transparent */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <TypewriterText
           text="kohos"

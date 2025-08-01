@@ -1,125 +1,174 @@
-# Vercel Deployment Guide
+# Deployment Guide
 
-## Prerequisites
+This guide covers deploying the Kohos platform to production.
 
-1. **Vercel Account**: Sign up at [vercel.com](https://vercel.com)
-2. **GitHub Repository**: Ensure your code is pushed to GitHub
-3. **Supabase Project**: Your Supabase project should be set up and running
+## 🚀 Frontend Deployment (Vercel)
 
-## Environment Variables Setup
+### Prerequisites
 
-### Required Environment Variables
+- Vercel account
+- GitHub repository connected to Vercel
+- Supabase project set up
 
-Set these in your Vercel project settings. The app supports both `VITE_` and `NEXT_PUBLIC_` prefixes for maximum compatibility:
+### Environment Variables
 
-#### Option 1: Vite Format (Recommended)
+Set these in your Vercel project settings:
+
+#### Required Variables
+
+| Variable Name | Value | Description |
+|---------------|-------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://your-project-id.supabase.co` | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJ...` | Your Supabase anon/public key |
+
+#### Optional Variables
+
+| Variable Name | Value | Description |
+|---------------|-------|-------------|
+| `NODE_ENV` | `production` | Environment type |
+| `NEXT_PUBLIC_APP_ENV` | `production` | App environment |
+| `NEXT_PUBLIC_APP_NAME` | `Kohos` | Application name |
+| `NEXT_PUBLIC_APP_VERSION` | `1.0.0` | Application version |
+| `NEXT_PUBLIC_APP_URL` | `https://your-domain.vercel.app` | Your production URL |
+| `NEXT_PUBLIC_ANALYTICS_ID` | `G-XXXXXXXXXX` | Google Analytics ID (optional) |
+| `NEXT_PUBLIC_ANALYTICS_ENABLED` | `true` | Enable analytics (true/false) |
+| `NEXT_PUBLIC_ENABLE_NOTIFICATIONS` | `true` | Enable notifications (true/false) |
+| `NEXT_PUBLIC_ENABLE_ANALYTICS` | `false` | Enable app analytics (true/false) |
+
+### Vercel Configuration
+
+- **Framework Preset**: Next.js
+- **Build Command**: `npm run build` (auto-detected)
+- **Output Directory**: `.next` (auto-detected)
+- **Root Directory**: `frontend` (for monorepo)
+- **Node Version**: 18.x or higher
+
+### Deployment Steps
+
+1. **Connect Repository**
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - Set root directory to `frontend`
+
+2. **Configure Environment Variables**
+   - Go to Project Settings → Environment Variables
+   - Add all required and optional variables above
+   - Set environment scope (Production, Preview, Development)
+
+3. **Deploy**
+   - Vercel will automatically build and deploy on push to main branch
+   - Preview deployments are created for pull requests
+
+### Local Vercel Testing
+
 ```bash
-VITE_SUPABASE_URL=https://pjzqsbolhsrbffvmwcmg.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqenFzYm9saHNyYmZmdm13Y21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0NTk0NjQsImV4cCI6MjA2OTAzNTQ2NH0.gSf2KSganRMSZG8RQHvNngJQ1t35evGiOGuQEQ4JbP4
-NODE_ENV=production
-VITE_APP_ENV=production
+# Test build locally
+vercel build
+
+# Deploy to production
+vercel deploy --prod
 ```
 
-#### Option 2: Next.js Format (Also Supported)
+## 🗄️ Backend Deployment (Supabase)
+
+### Prerequisites
+
+- Supabase account
+- Supabase CLI installed
+
+### Database Setup
+
+1. **Create Supabase Project**
+   - Go to [supabase.com](https://supabase.com)
+   - Create new project
+   - Note your project URL and API keys
+
+2. **Apply Migrations**
+   ```bash
+   cd backend
+   npm run db:push
+   ```
+
+3. **Generate Types**
+   ```bash
+   npm run db:generate-types
+   ```
+
+### Environment Variables
+
+Set these in your Supabase project settings:
+
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://pjzqsbolhsrbffvmwcmg.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqenFzYm9saHNyYmZmdm13Y21nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0NTk0NjQsImV4cCI6MjA2OTAzNTQ2NH0.gSf2KSganRMSZG8RQHvNngJQ1t35evGiOGuQEQ4JbP4
-NODE_ENV=production
-VITE_APP_ENV=production
+# Supabase Configuration (auto-configured)
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-### Optional Environment Variables
+## 🔧 Production Checklist
 
-```bash
-VITE_APP_NAME=Kohos
-VITE_APP_VERSION=1.0.0
-VITE_ENABLE_NOTIFICATIONS=true
-VITE_ENABLE_ANALYTICS=false
-```
+### Frontend (Vercel)
 
-## Deployment Steps
+- [ ] Environment variables configured
+- [ ] Build succeeds without errors
+- [ ] All pages load correctly
+- [ ] Authentication works
+- [ ] Database connections established
+- [ ] Analytics configured (if using)
+- [ ] Custom domain configured (optional)
 
-### 1. Connect to Vercel
+### Backend (Supabase)
 
-1. Go to [vercel.com](https://vercel.com)
-2. Click "New Project"
-3. Import your GitHub repository
-4. Select the repository
+- [ ] Database migrations applied
+- [ ] Row Level Security (RLS) policies configured
+- [ ] Storage buckets created and configured
+- [ ] Edge functions deployed (if any)
+- [ ] API rate limiting configured
+- [ ] Monitoring and logging enabled
 
-### 2. Configure Build Settings
+### Security
 
-Vercel will automatically detect the configuration from `vercel.json`:
+- [ ] Environment variables are encrypted
+- [ ] API keys are secure and not exposed
+- [ ] CORS policies configured
+- [ ] Authentication flows tested
+- [ ] Database permissions reviewed
 
-- **Framework Preset**: Vite
-- **Build Command**: `npm run build:frontend`
-- **Output Directory**: `frontend/dist`
-- **Install Command**: `npm run install:all`
-
-### 3. Set Environment Variables
-
-1. In your Vercel project dashboard, go to "Settings" → "Environment Variables"
-2. Add all the required environment variables listed above
-3. Make sure to set them for "Production" environment
-4. **Important**: You can use either `VITE_` or `NEXT_PUBLIC_` prefixes - both will work
-
-### 4. Deploy
-
-1. Click "Deploy"
-2. Vercel will automatically build and deploy your application
-3. Monitor the build logs for any issues
-
-## Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
 
 1. **Build Failures**
-   - Check that all dependencies are properly installed
-   - Ensure TypeScript compilation passes locally
-   - Verify environment variables are set correctly
+   - Check environment variables are set correctly
+   - Verify Node.js version compatibility
+   - Review build logs for specific errors
 
-2. **Runtime Errors**
-   - Check browser console for client-side errors
-   - Verify Supabase connection is working
-   - Ensure all API endpoints are accessible
+2. **Database Connection Issues**
+   - Verify Supabase URL and keys
+   - Check network connectivity
+   - Review RLS policies
 
-3. **Environment Variable Issues**
-   - Make sure all `VITE_` or `NEXT_PUBLIC_` prefixed variables are set in Vercel
-   - Verify the values match your Supabase project settings
-   - The app will fall back to hardcoded values if environment variables are missing
+3. **Authentication Problems**
+   - Verify Supabase Auth configuration
+   - Check redirect URLs in Supabase settings
+   - Review authentication flow
 
-### Local Testing
+4. **Environment Variable Issues**
+   - Ensure all `NEXT_PUBLIC_` prefixed variables are set in Vercel
+   - Check variable names match exactly (case-sensitive)
+   - Verify environment scope (Production/Preview/Development)
 
-Before deploying, test the production build locally:
+### Support
 
-```bash
-# Install dependencies
-npm run install:all
+For deployment issues:
+1. Check Vercel deployment logs
+2. Review Supabase project logs
+3. Test locally with production environment variables
+4. Contact support if issues persist
 
-# Build the project
-npm run build:frontend
+## 📚 Additional Resources
 
-# Preview the build
-cd frontend && npm run preview
-```
-
-### Performance Optimization
-
-The build configuration includes:
-- Code splitting for vendor libraries
-- Optimized bundle sizes
-- Source maps disabled in production
-- Manual chunk configuration for better caching
-
-## Post-Deployment
-
-1. **Verify Functionality**: Test all major features on the deployed site
-2. **Check Performance**: Use Lighthouse to audit performance
-3. **Monitor Errors**: Set up error tracking if needed
-4. **Update DNS**: Point your custom domain to Vercel if applicable
-
-## Security Notes
-
-- Never commit `.env` files to version control
-- Use Vercel's environment variable system for sensitive data
-- Ensure Supabase Row Level Security (RLS) is properly configured
-- Regularly rotate API keys and secrets 
+- [Vercel Documentation](https://vercel.com/docs)
+- [Supabase Documentation](https://supabase.com/docs)
+- [Next.js Deployment Guide](https://nextjs.org/docs/deployment)
+- [Frontend Vercel Deployment Guide](frontend/VERCEL_DEPLOYMENT.md) 

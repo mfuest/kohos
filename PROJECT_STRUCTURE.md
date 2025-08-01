@@ -1,264 +1,238 @@
-# Kohos Project Structure
+# Project Structure
 
-This document outlines the organized structure of the Kohos platform with clear separation between frontend and backend components.
+This document outlines the structure and organization of the Kohos platform.
 
-## 📁 Root Structure
+## 🏗️ Overview
 
 ```
 kohos/
-├── frontend/              # React + TypeScript + Vite application
-├── backend/               # Supabase backend services
-├── README.md              # Main project documentation
-├── .gitignore             # Root gitignore
-└── package.json           # Root package.json with workspace scripts
+├── frontend/              # Next.js + TypeScript + React application
+│   ├── src/              # Source code
+│   │   ├── app/          # Next.js App Router pages
+│   │   ├── components/   # Reusable React components
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── lib/          # Utility functions and configurations
+│   │   ├── types/        # TypeScript type definitions
+│   │   └── integrations/ # Third-party integrations (Supabase)
+│   ├── public/           # Static assets
+│   ├── docs/             # Frontend documentation
+│   └── scripts/          # Development scripts
+├── backend/              # Supabase backend services
+│   ├── supabase/         # Database migrations and config
+│   └── functions/        # Edge functions (future)
+└── README.md             # This file
 ```
 
-## 🎨 Frontend Structure
+## 📁 Frontend Structure
+
+### Core Directories
 
 ```
-frontend/
-├── src/                   # Source code
-│   ├── components/        # Reusable UI components
-│   │   ├── ui/           # shadcn/ui components (buttons, cards, forms)
-│   │   ├── brand/        # Brand-specific components
-│   │   │   └── BrandHeader.tsx
-│   │   ├── creator/      # Creator-specific components
-│   │   │   ├── CreatorCard.tsx
-│   │   │   └── CreatorHeader.tsx
-│   │   └── shared/       # Shared components across user types
-│   │       ├── SignInDialog.tsx
-│   │       ├── TopNavigation.tsx
-│   │       └── UserTypeCard.tsx
-│   ├── pages/            # Page components organized by user type
-│   │   ├── brand/        # Brand-specific pages
-│   │   │   ├── Analytics.tsx
-│   │   │   ├── Campaigns.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   └── Profile.tsx
-│   │   ├── creator/      # Creator-specific pages
-│   │   │   ├── Analytics.tsx
-│   │   │   ├── Marketplace.tsx
-│   │   │   └── Profile.tsx
-│   │   ├── About.tsx     # Shared pages
-│   │   ├── Auth.tsx
-│   │   ├── BrowseCreators.tsx
-│   │   ├── Campaigns.tsx
-│   │   ├── Index.tsx
-│   │   ├── Landing.tsx
-│   │   └── NotFound.tsx
-│   ├── hooks/            # Custom React hooks
-│   │   ├── useAuth.tsx
-│   │   ├── useCampaigns.ts
-│   │   ├── useCreators.ts
-│   │   ├── useProfile.ts
-│   │   ├── useApplications.ts
-│   │   └── use-mobile.tsx
-│   ├── types/            # TypeScript type definitions
-│   │   ├── campaign.ts   # Campaign-related types
-│   │   ├── creator.ts    # Creator-related types
-│   │   ├── brand.ts      # Brand-related types
-│   │   ├── application.ts # Application-related types
-│   │   └── index.ts      # Barrel exports
-│   ├── integrations/     # External service integrations
-│   │   └── supabase/     # Supabase client and types
-│   │       ├── client.ts
-│   │       └── types.ts
-│   ├── lib/              # Utility functions and configurations
-│   │   ├── utils.ts      # Common utility functions
-│   │   └── env.ts        # Environment validation (future)
-│   ├── assets/           # Static assets
-│   │   ├── coffee-hero.jpg
-│   │   └── hero-image.jpg
-│   ├── App.tsx           # Main App component
-│   ├── App.css           # App styles
-│   ├── index.css         # Global styles
-│   ├── main.tsx          # Entry point
-│   └── vite-env.d.ts     # Vite types
-├── public/               # Public assets
-│   ├── favicon.ico
-│   ├── placeholder.svg
-│   ├── robots.txt
-│   └── lovable-uploads/  # Uploaded images
-├── docs/                 # Frontend documentation
-│   └── DEVELOPMENT.md    # Development guide
-├── scripts/              # Development scripts
-│   ├── setup.sh          # Setup script
-│   └── cleanup.sh        # Cleanup script
-├── .vscode/              # VS Code settings
-│   ├── settings.json
-│   └── extensions.json
-├── package.json          # Frontend dependencies
-├── package-lock.json     # Lock file
-├── vite.config.ts        # Vite configuration
-├── tailwind.config.ts    # Tailwind configuration
-├── tsconfig.json         # TypeScript configuration
-├── eslint.config.js      # ESLint configuration
-├── postcss.config.js     # PostCSS configuration
-├── components.json       # shadcn/ui configuration
-├── .prettierrc           # Prettier configuration
-├── .nvmrc                # Node version
-└── env.example           # Environment template
+frontend/src/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # Root layout component
+│   ├── page.tsx           # Home page
+│   ├── globals.css        # Global styles
+│   ├── auth/              # Authentication pages
+│   ├── brand/             # Brand-specific pages
+│   │   ├── dashboard/     # Brand dashboard
+│   │   ├── campaigns/     # Campaign management
+│   │   ├── analytics/     # Brand analytics
+│   │   └── profile/       # Brand profile
+│   ├── creator/           # Creator-specific pages
+│   │   ├── marketplace/   # Campaign marketplace
+│   │   ├── analytics/     # Creator analytics
+│   │   └── profile/       # Creator profile
+│   ├── campaigns/         # Public campaign pages
+│   └── browse-creators/   # Creator discovery
+├── components/            # Reusable components
+│   ├── ui/               # Base UI components (shadcn/ui)
+│   ├── shared/           # Shared components
+│   ├── brand/            # Brand-specific components
+│   └── creator/          # Creator-specific components
+├── hooks/                # Custom React hooks
+├── lib/                  # Utilities and configurations
+├── types/                # TypeScript type definitions
+└── integrations/         # Third-party integrations
+    └── supabase/         # Supabase client and types
 ```
+
+### Key Files
+
+#### Configuration Files
+- **next.config.js** - Next.js configuration
+- **tailwind.config.ts** - Tailwind CSS configuration
+- **tsconfig.json** - TypeScript configuration
+- **package.json** - Dependencies and scripts
+- **env.example** - Environment variables template
+
+#### Core Application Files
+- **src/app/layout.tsx** - Root layout with providers
+- **src/app/page.tsx** - Home page component
+- **src/lib/env.ts** - Environment variable validation
+- **src/lib/utils.ts** - Utility functions
+- **src/integrations/supabase/client.ts** - Supabase client setup
+
+#### Component Organization
+- **src/components/ui/** - Base UI components from shadcn/ui
+- **src/components/shared/** - Components used across multiple pages
+- **src/components/brand/** - Brand-specific components
+- **src/components/creator/** - Creator-specific components
 
 ## 🗄️ Backend Structure
 
+### Supabase Configuration
+
 ```
 backend/
-├── supabase/             # Supabase configuration
-│   ├── config.toml       # Supabase config
+├── supabase/
+│   ├── config.toml       # Supabase configuration
 │   └── migrations/       # Database migrations
-│       ├── 20250725164610-ca4a8299-443b-4041-bb9a-75507aa3f043.sql
-│       ├── 20250725164717-eb619eb9-9800-47df-9ce1-94298bb7ab13.sql
-│       └── 20250725164743-1c69dbbc-0133-43be-b8cf-ce80579cd905.sql
-├── functions/            # Edge functions (future)
-├── package.json          # Backend dependencies
-├── README.md             # Backend documentation
-└── .gitignore            # Backend gitignore
+│       ├── 20250725164610-*.sql
+│       ├── 20250725164717-*.sql
+│       └── 20250725164743-*.sql
+└── package.json          # Backend dependencies and scripts
 ```
 
-## 🔧 Configuration Files
+### Database Schema
 
-### Root Level
-- **package.json** - Workspace management and root scripts
-- **.gitignore** - Root-level ignore rules
-- **README.md** - Main project documentation
+The backend uses Supabase (PostgreSQL) with the following main tables:
 
-### Frontend Configuration
-- **vite.config.ts** - Vite build configuration
-- **tailwind.config.ts** - Tailwind CSS configuration
-- **tsconfig.json** - TypeScript configuration
-- **eslint.config.js** - ESLint rules
-- **.prettierrc** - Code formatting rules
-- **components.json** - shadcn/ui configuration
+- **profiles** - Base user profiles
+- **creator_profiles** - Creator-specific data
+- **brand_profiles** - Brand-specific data
+- **campaigns** - Brand campaigns
+- **campaign_applications** - Creator applications
 
-### Backend Configuration
-- **supabase/config.toml** - Supabase project configuration
-- **package.json** - Backend dependencies and scripts
+## 🛠️ Development Workflow
 
-## 🚀 Development Workflow
+### Frontend Development
 
-### Starting Development
 ```bash
-# Root level - start both frontend and backend
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 
-# Frontend only
-cd frontend && npm run dev
-
-# Backend only
-cd backend && npm run db:start
-```
-
-### Building
-```bash
-# Build frontend
-cd frontend && npm run build
-
-# Build both (from root)
+# Build for production
 npm run build
+
+# Run linting
+npm run lint
+
+# Type checking
+npm run typecheck
 ```
 
-### Database Management
+### Backend Development
+
 ```bash
-# From root
+cd backend
+
+# Start local Supabase
 npm run db:start
+
+# Apply migrations
 npm run db:push
+
+# Generate types
 npm run db:generate-types
 
-# From backend directory
-cd backend && npm run db:start
+# Stop local Supabase
+npm run db:stop
 ```
 
-## 📦 Package Management
+## 📦 Dependencies
 
-### Root Level Scripts
-- `npm run dev` - Start both frontend and backend
-- `npm run build` - Build frontend
-- `npm run setup` - Setup both frontend and backend
-- `npm run clean` - Clean both frontend and backend
-- `npm run lint` - Lint both frontend and backend
+### Frontend Dependencies
 
-### Frontend Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code
-- `npm run type-check` - TypeScript checking
+#### Core Framework
+- **Next.js 14** - React framework with App Router
+- **React 18** - UI library
+- **TypeScript** - Type safety
 
-### Backend Scripts
-- `npm run db:start` - Start local Supabase
-- `npm run db:push` - Apply migrations
-- `npm run db:generate-types` - Generate TypeScript types
+#### UI and Styling
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Headless UI components
+- **shadcn/ui** - Component library
+- **Lucide React** - Icon library
 
-## 🔐 Environment Variables
+#### State Management
+- **TanStack Query** - Server state management
+- **React Hook Form** - Form handling
+
+#### Backend Integration
+- **Supabase JS** - Database and auth client
+- **Zod** - Schema validation
+
+### Backend Dependencies
+
+- **Supabase CLI** - Local development
+- **PostgreSQL** - Database (via Supabase)
+
+## 🔧 Environment Variables
 
 ### Frontend (.env.local)
-```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+```bash
+# Required
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Optional
+NODE_ENV=development
+NEXT_PUBLIC_APP_ENV=development
+NEXT_PUBLIC_APP_NAME=Kohos
+NEXT_PUBLIC_APP_VERSION=1.0.0
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_ANALYTICS_ID=your_google_analytics_id
+NEXT_PUBLIC_ANALYTICS_ENABLED=false
+NEXT_PUBLIC_ENABLE_NOTIFICATIONS=true
+NEXT_PUBLIC_ENABLE_ANALYTICS=false
 ```
 
 ### Backend (.env)
-```env
+
+```bash
 SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 SUPABASE_ANON_KEY=your_anon_key
 ```
 
-## 🎯 Key Benefits of This Structure
+## 🚀 Deployment
 
-1. **Clear Separation** - Frontend and backend are clearly separated
-2. **Independent Development** - Each can be developed independently
-3. **Scalable** - Easy to add more services or frontend apps
-4. **Maintainable** - Clear organization makes maintenance easier
-5. **Team Collaboration** - Different teams can work on different parts
-6. **Deployment Flexibility** - Can deploy frontend and backend separately
+### Frontend (Vercel)
 
-## 🚀 Recent Enhancements
+- **Framework**: Next.js
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Environment Variables**: Set in Vercel project settings
 
-### 1. **Domain-Based Component Organization**
-Components are now organized by domain:
-- `components/ui/` - Reusable UI atoms (buttons, cards, forms)
-- `components/brand/` - Brand-specific components
-- `components/creator/` - Creator-specific components  
-- `components/shared/` - Components used across user types
+### Backend (Supabase)
 
-### 2. **User-Type Page Organization**
-Pages are grouped by user type:
-- `pages/brand/` - Brand dashboard, campaigns, analytics, profile
-- `pages/creator/` - Creator marketplace, analytics, profile
-- Root pages - Shared pages like landing, auth, about
+- **Database**: Supabase hosted PostgreSQL
+- **API**: Supabase REST and GraphQL APIs
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
 
-### 3. **Centralized Type Definitions**
-New `types/` directory with domain-specific type files:
-- `types/campaign.ts` - Campaign types and constants
-- `types/creator.ts` - Creator types and constants
-- `types/brand.ts` - Brand types and constants
-- `types/application.ts` - Application types and constants
-- `types/index.ts` - Barrel exports for easy importing
+## 📚 Documentation
 
-### 4. **Enhanced Utility Functions**
-Expanded `lib/utils.ts` with:
-- Currency and number formatting
-- Date and time utilities
-- Validation functions
-- UI helper functions
-- Performance utilities (debounce, throttle)
-
-### 5. **Environment Validation** (Future)
-`lib/env.ts` provides:
-- Zod-based environment validation
-- Type-safe environment variables
-- Runtime error prevention
-- Development/production helpers
+- [Frontend Development Guide](frontend/docs/DEVELOPMENT.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Vercel Deployment Guide](frontend/VERCEL_DEPLOYMENT.md)
+- [Supabase Documentation](https://supabase.com/docs)
 
 ## 🔄 Migration Notes
 
-- All frontend code moved to `frontend/` directory
-- All backend/database code moved to `backend/` directory
-- Configuration files moved to appropriate directories
-- Scripts updated to work with new structure
-- Documentation updated to reflect new organization
-- Components reorganized by domain (brand/creator/shared)
-- Pages grouped by user type (brand/creator)
-- Type definitions centralized in `types/` directory 
+This project was migrated from Vite to Next.js to leverage:
+- Server-side rendering (SSR)
+- Static site generation (SSG)
+- App Router for better routing
+- Built-in API routes
+- Better SEO capabilities
+- Improved development experience
+
+All environment variables now use the `NEXT_PUBLIC_` prefix for client-side access. 

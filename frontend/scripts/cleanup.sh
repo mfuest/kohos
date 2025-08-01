@@ -12,7 +12,7 @@ echo "🗑️  Removing build artifacts..."
 rm -rf dist/
 rm -rf build/
 rm -rf .next/
-rm -rf .vite/
+rm -rf .next/
 
 # Remove node_modules cache
 echo "🗑️  Cleaning npm cache..."

@@ -21,12 +21,12 @@ const UserTypeCard = ({
   onCtaClick,
 }: UserTypeCardProps) => {
   return (
-    <Card className="h-full hover:shadow-elegant transition-all duration-300 border-0 bg-card/50 text-center p-12">
+    <Card className="h-full hover:shadow-elegant transition-all duration-300 border-coffee-medium/20 bg-card/80 backdrop-blur-sm text-center p-12 hover:bg-card/90 hover:border-coffee-medium/30">
       <CardHeader className="pb-8">
-        <CardTitle className="text-2xl font-heading mb-4 font-bold">
+        <CardTitle className="text-2xl font-heading mb-4 font-bold text-coffee-dark">
           {title}
         </CardTitle>
-        <CardDescription className="text-base font-serif leading-relaxed">
+        <CardDescription className="text-base font-serif leading-relaxed text-coffee-medium">
           {description}
         </CardDescription>
       </CardHeader>
@@ -43,7 +43,7 @@ const UserTypeCard = ({
         <Button
           variant="outline"
           size="lg"
-          className="w-full font-sans text-sm tracking-wide"
+          className="w-full font-sans text-sm tracking-wide border-coffee-medium text-coffee-dark hover:bg-coffee-medium hover:text-cream transition-colors duration-200"
           onClick={onCtaClick}
         >
           {ctaText}

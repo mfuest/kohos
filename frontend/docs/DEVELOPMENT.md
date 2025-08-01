@@ -1,243 +1,367 @@
-# Development Guide
+# Frontend Development Guide
+
+This guide covers the development workflow for the Kohos frontend application.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 20+ (use `nvm use` to switch to the correct version)
+
+- Node.js 18+ 
 - npm or yarn
-- VS Code with recommended extensions
-- Supabase CLI (optional, for local development)
+- Git
 
 ### Initial Setup
-```bash
-# Clone the repository
-git clone <repository-url>
-cd kohos
 
-# Use the correct Node version
-nvm use
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp env.example .env.local
-# Edit .env.local with your Supabase credentials
-
-# Start development server
-npm run dev
-```
-
-## 🛠️ Development Workflow
-
-### Daily Workflow
-1. **Start your day**
+1. **Clone the repository:**
    ```bash
-   nvm use
+   git clone <repository-url>
+   cd kohos/frontend
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+   ```bash
+   cp env.example .env.local
+   # Edit .env.local with your actual values
+   ```
+
+4. **Start the development server:**
+   ```bash
    npm run dev
    ```
 
-2. **Before committing**
-   ```bash
-   npm run lint:fix
-   npm run format
-   npm run type-check
-   ```
+5. **Open your browser:**
+   Navigate to `http://localhost:3000`
 
-3. **Clean up when needed**
-   ```bash
-   npm run clean        # Clean build artifacts
-   npm run clean:all    # Full reset (use sparingly)
-   ```
+## 🛠️ Development Workflow
 
-### Code Quality
+### Available Scripts
 
-#### Linting
-- ESLint is configured for TypeScript and React
-- Run `npm run lint` to check for issues
-- Run `npm run lint:fix` to auto-fix issues
+```bash
+# Development
+npm run dev              # Start development server
+npm run build            # Build for production
+npm run start            # Start production server
 
-#### Formatting
-- Prettier is configured for consistent formatting
-- Run `npm run format` to format all files
-- Run `npm run format:check` to check formatting
+# Code Quality
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint issues
+npm run typecheck        # Run TypeScript type checking
+npm run format           # Format code with Prettier
+npm run format:check     # Check code formatting
 
-#### Type Checking
-- TypeScript is strictly configured
-- Run `npm run type-check` to check types
-- Fix type errors before committing
+# Maintenance
+npm run clean            # Clean build artifacts
+npm run clean:all        # Clean everything and reinstall
+```
 
-### Git Workflow
+### Development Server
 
-#### Branch Naming
-- `feature/feature-name` - New features
-- `fix/bug-description` - Bug fixes
-- `refactor/component-name` - Code refactoring
-- `docs/documentation-update` - Documentation changes
+The development server runs on `http://localhost:3000` and includes:
 
-#### Commit Messages
-Use conventional commits:
-- `feat: add campaign application system`
-- `fix: resolve authentication issue`
-- `refactor: improve component structure`
-- `docs: update README`
+- **Hot Module Replacement (HMR)** - Instant updates on file changes
+- **Fast Refresh** - React component hot reloading
+- **TypeScript checking** - Real-time type checking
+- **ESLint integration** - Code quality feedback
+- **Source maps** - Better debugging experience
 
 ## 📁 Project Structure
 
 ```
-kohos/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── ui/             # shadcn/ui components
-│   │   └── ...             # Custom components
-│   ├── hooks/              # Custom React hooks
-│   ├── pages/              # Page components
-│   ├── integrations/       # External service integrations
-│   │   └── supabase/       # Supabase client and types
-│   └── lib/                # Utility functions
-├── supabase/               # Database migrations and config
-├── public/                 # Static assets
-├── docs/                   # Documentation
-└── .vscode/                # VS Code settings
+src/
+├── app/                    # Next.js App Router
+│   ├── layout.tsx         # Root layout with providers
+│   ├── page.tsx           # Home page
+│   ├── globals.css        # Global styles
+│   ├── auth/              # Authentication pages
+│   ├── brand/             # Brand-specific pages
+│   ├── creator/           # Creator-specific pages
+│   ├── campaigns/         # Public campaign pages
+│   └── browse-creators/   # Creator discovery
+├── components/            # Reusable components
+│   ├── ui/               # Base UI components (shadcn/ui)
+│   ├── shared/           # Shared components
+│   ├── brand/            # Brand-specific components
+│   └── creator/          # Creator-specific components
+├── hooks/                # Custom React hooks
+├── lib/                  # Utilities and configurations
+├── types/                # TypeScript type definitions
+└── integrations/         # Third-party integrations
+    └── supabase/         # Supabase client and types
 ```
 
-## 🎨 Styling Guidelines
+## 🎨 Component Development
+
+### Component Organization
+
+Components are organized by domain and purpose:
+
+- **`components/ui/`** - Base UI components from shadcn/ui
+- **`components/shared/`** - Components used across multiple pages
+- **`components/brand/`** - Brand-specific components
+- **`components/creator/`** - Creator-specific components
+
+### Creating New Components
+
+1. **Choose the right location** based on the component's purpose
+2. **Use TypeScript** for all components
+3. **Follow naming conventions**:
+   - PascalCase for component names
+   - Descriptive, semantic names
+   - Include `.tsx` extension
+
+Example:
+```tsx
+// components/shared/NewComponent.tsx
+import React from 'react';
+
+interface NewComponentProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+export function NewComponent({ title, children }: NewComponentProps) {
+  return (
+    <div className="p-4 border rounded-lg">
+      <h2 className="text-lg font-semibold">{title}</h2>
+      {children}
+    </div>
+  );
+}
+```
+
+### Using shadcn/ui Components
+
+The project uses shadcn/ui for base components. To add new components:
+
+```bash
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add dialog
+```
+
+## 🔧 Environment Variables
+
+### Required Variables
+
+```bash
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Optional Variables
+
+```bash
+# Application Configuration
+NODE_ENV=development
+NEXT_PUBLIC_APP_ENV=development
+NEXT_PUBLIC_APP_NAME=Kohos
+NEXT_PUBLIC_APP_VERSION=1.0.0
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Analytics (optional)
+NEXT_PUBLIC_ANALYTICS_ID=your_google_analytics_id
+NEXT_PUBLIC_ANALYTICS_ENABLED=false
+
+# Feature Flags (optional)
+NEXT_PUBLIC_ENABLE_NOTIFICATIONS=true
+NEXT_PUBLIC_ENABLE_ANALYTICS=false
+```
+
+### Environment Validation
+
+The project uses Zod for environment variable validation in `src/lib/env.ts`. This ensures:
+
+- Required variables are present
+- Variables have correct types
+- Clear error messages for missing variables
+
+## 🎯 TypeScript
+
+### Type Definitions
+
+Types are organized in the `src/types/` directory:
+
+- **`types/campaign.ts`** - Campaign-related types
+- **`types/creator.ts`** - Creator-related types
+- **`types/brand.ts`** - Brand-related types
+- **`types/application.ts`** - Application-related types
+- **`types/index.ts`** - Barrel exports
+
+### Type Safety Best Practices
+
+1. **Use interfaces for object shapes**
+2. **Use type unions for variants**
+3. **Export types from barrel files**
+4. **Use generic types where appropriate**
+
+Example:
+```typescript
+// types/campaign.ts
+export interface Campaign {
+  id: string;
+  title: string;
+  description: string;
+  budget: number;
+  status: 'draft' | 'active' | 'completed' | 'cancelled';
+  created_at: string;
+  updated_at: string;
+}
+
+// types/index.ts
+export type { Campaign } from './campaign';
+```
+
+## 🔌 Supabase Integration
+
+### Client Setup
+
+The Supabase client is configured in `src/integrations/supabase/client.ts`:
+
+```typescript
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from './types';
+
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+```
+
+### Using Supabase in Components
+
+```typescript
+import { supabase } from '@/integrations/supabase/client';
+
+// Query data
+const { data, error } = await supabase
+  .from('campaigns')
+  .select('*')
+  .eq('status', 'active');
+
+// Handle errors
+if (error) {
+  console.error('Error fetching campaigns:', error);
+  return;
+}
+```
+
+## 🎨 Styling
 
 ### Tailwind CSS
-- Use Tailwind utility classes for styling
-- Follow mobile-first responsive design
-- Use the custom coffee theme colors defined in `src/index.css`
 
-### Component Styling
-```tsx
-// Good: Use Tailwind classes
-<div className="flex items-center space-x-2 bg-coffee-light p-4 rounded-lg">
+The project uses Tailwind CSS for styling:
 
-// Avoid: Inline styles
-<div style={{ display: 'flex', backgroundColor: '#f5f5f5' }}>
-```
+- **Utility-first approach** - Use utility classes directly
+- **Responsive design** - Mobile-first responsive utilities
+- **Custom theme** - Coffee-themed color palette
+- **Component variants** - Use `class-variance-authority` for variants
 
-### Custom CSS
-- Define custom CSS variables in `src/index.css`
-- Use CSS variables for theme colors
-- Keep custom CSS minimal
+### CSS Variables
 
-## 🗄️ Database Development
+Custom CSS variables are defined in `src/app/globals.css`:
 
-### Local Development
-```bash
-# Start Supabase locally (requires Supabase CLI)
-npm run supabase:start
-
-# Push migrations
-npm run db:push
-
-# Reset database
-npm run db:reset
-```
-
-### Database Changes
-1. Create a new migration: `supabase migration new migration_name`
-2. Write SQL in the generated file
-3. Test locally: `npm run db:push`
-4. Commit the migration file
-
-### Type Generation
-After schema changes, regenerate types:
-```bash
-supabase gen types typescript --local > src/integrations/supabase/types.ts
+```css
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 25 95% 53%;
+  --primary-foreground: 210 40% 98%;
+  /* ... more variables */
+}
 ```
 
 ## 🧪 Testing
 
-### Manual Testing Checklist
-- [ ] Test on different screen sizes
-- [ ] Test authentication flow
-- [ ] Test campaign creation and management
-- [ ] Test creator discovery and application
-- [ ] Test error states and loading states
+### Running Tests
 
-### Browser Testing
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+```bash
+# Run all tests
+npm test
 
-## 🚀 Deployment
+# Run tests in watch mode
+npm test -- --watch
 
-### Pre-deployment Checklist
-- [ ] All tests pass
-- [ ] No TypeScript errors
-- [ ] No ESLint warnings
-- [ ] Environment variables configured
-- [ ] Database migrations applied
+# Run tests with coverage
+npm test -- --coverage
+```
 
-### Environment Variables
-Ensure these are set in production:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+### Testing Best Practices
+
+1. **Test component behavior, not implementation**
+2. **Use descriptive test names**
+3. **Mock external dependencies**
+4. **Test error states**
+5. **Use accessibility testing**
+
+## 🚀 Performance
+
+### Optimization Techniques
+
+1. **Code splitting** - Next.js automatic code splitting
+2. **Image optimization** - Next.js Image component
+3. **Lazy loading** - React.lazy for components
+4. **Memoization** - React.memo for expensive components
+5. **Bundle analysis** - Use `@next/bundle-analyzer`
+
+### Bundle Analysis
+
+```bash
+# Analyze bundle size
+npm run build
+npx @next/bundle-analyzer
+```
 
 ## 🐛 Debugging
 
+### Development Tools
+
+1. **React Developer Tools** - Component inspection
+2. **Redux DevTools** - State management (if using Redux)
+3. **Network tab** - API request inspection
+4. **Console** - Error logging and debugging
+
 ### Common Issues
 
-#### Build Errors
-```bash
-# Clear cache and rebuild
-npm run clean
-npm install
-npm run build
-```
+1. **Environment variables not loading**
+   - Check `.env.local` file exists
+   - Verify variable names start with `NEXT_PUBLIC_`
+   - Restart development server
 
-#### TypeScript Errors
-```bash
-# Check types
-npm run type-check
+2. **TypeScript errors**
+   - Run `npm run typecheck`
+   - Check import paths
+   - Verify type definitions
 
-# Regenerate Supabase types if needed
-supabase gen types typescript --local > src/integrations/supabase/types.ts
-```
-
-#### Styling Issues
-- Check Tailwind CSS IntelliSense extension
-- Verify CSS variables are defined
-- Check for conflicting styles
-
-### Debug Tools
-- React Developer Tools
-- Redux DevTools (if using Redux)
-- Network tab for API calls
-- Console for errors
+3. **Build errors**
+   - Check for missing dependencies
+   - Verify environment variables
+   - Review build logs
 
 ## 📚 Resources
 
-### Documentation
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Supabase Documentation](https://supabase.com/docs)
-
-### VS Code Extensions
-- ESLint
-- Prettier
-- Tailwind CSS IntelliSense
-- TypeScript Importer
-- Auto Rename Tag
+- [shadcn/ui Documentation](https://ui.shadcn.com)
 
 ## 🤝 Contributing
 
-1. Create a feature branch
-2. Make your changes
-3. Run quality checks
-4. Write tests if applicable
-5. Update documentation
-6. Submit a pull request
+1. **Create a feature branch**
+2. **Make your changes**
+3. **Run tests and linting**
+4. **Submit a pull request**
 
-### Code Review Checklist
-- [ ] Code follows project conventions
-- [ ] No TypeScript errors
-- [ ] No ESLint warnings
-- [ ] Tests pass
-- [ ] Documentation updated
-- [ ] No console.log statements
-- [ ] Proper error handling 
+### Code Style
+
+- Use Prettier for formatting
+- Follow ESLint rules
+- Use TypeScript for type safety
+- Write descriptive commit messages 
