@@ -38,10 +38,11 @@ Set these in your Vercel project settings:
 ### Vercel Configuration
 
 - **Framework Preset**: Next.js
-- **Build Command**: `npm run build` (auto-detected)
-- **Output Directory**: `.next` (auto-detected)
+- **Build Command**: `npm run build` (configured in vercel.json)
+- **Output Directory**: `.next` (configured in vercel.json)
 - **Root Directory**: `frontend` (for monorepo)
 - **Node Version**: 18.x or higher
+- **Vercel Config**: Located at `frontend/vercel.json`
 
 ### Deployment Steps
 
