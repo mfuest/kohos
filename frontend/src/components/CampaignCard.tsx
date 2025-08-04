@@ -7,7 +7,8 @@ import {
   CardTitle,
 } from './ui/card';
 import { Badge } from './ui/badge';
-import { Calendar, DollarSign, Users, MapPin } from 'lucide-react';
+import { Calendar, DollarSign, Users, MapPin, Eye } from 'lucide-react';
+import Link from 'next/link';
 
 interface CampaignCardProps {
   title: string;
@@ -20,6 +21,8 @@ interface CampaignCardProps {
   requirements: string[];
   applicants?: number;
   showEditButton?: boolean;
+  campaignId?: string;
+  showViewApplications?: boolean;
 }
 
 const CampaignCard = ({
@@ -33,6 +36,8 @@ const CampaignCard = ({
   requirements,
   applicants = 0,
   showEditButton = false,
+  campaignId,
+  showViewApplications = false,
 }: CampaignCardProps) => {
   return (
     <Card className="hover:shadow-elegant transition-all duration-300 border hover:border-primary/20">
@@ -88,12 +93,22 @@ const CampaignCard = ({
           </ul>
         </div>
 
-        <Button
-          variant={showEditButton ? 'outline' : 'gradient'}
-          className="w-full"
-        >
-          {showEditButton ? 'Edit Campaign' : 'Apply Now'}
-        </Button>
+        <div className="space-y-2">
+          {showViewApplications && campaignId && (
+            <Link href={`/brand/applications?campaign=${campaignId}`}>
+              <Button variant="outline" className="w-full">
+                <Eye className="h-4 w-4 mr-2" />
+                View Applications ({applicants})
+              </Button>
+            </Link>
+          )}
+          <Button
+            variant={showEditButton ? 'outline' : 'gradient'}
+            className="w-full"
+          >
+            {showEditButton ? 'Edit Campaign' : 'Apply Now'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

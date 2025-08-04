@@ -344,6 +344,8 @@ export default function BrandCampaignsPage() {
                     requirements={campaign.requirements || []}
                     applicants={campaign.applications_count || 0}
                     showEditButton={true}
+                    campaignId={campaign.id}
+                    showViewApplications={true}
                   />
                   <div className="absolute top-4 right-4">
                     <Badge
